@@ -1,0 +1,139 @@
+@(message: String)
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href=".@routes.Assets.at("stylesheets/custom.css")">
+    <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href=".@routes.Application.index()">Home</a></li>
+        <li><a href=".@routes.Application.about()">About</a></li>
+        <li class="active"><a href=".@routes.Application.downloads()">Downloads</a></li>
+        <li><a href=".@routes.Application.people()">People</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Downloads</h3>
+            <p>
+                If you want to run NavProt on your computer, you can download the zip
+                archive below. Archive contains three files, <mark>navprot.jar</mark> which is the
+                program itself, <mark>navprot</mark> which is the bash script for Linux/OS X and
+                <mark>navprot.bat</mark> which is a command line script for running NavProt in Windows.
+            </p><br/>
+            <table class="table table-bordered">
+                <tr>
+                    <td class="col-md-10"><strong>Files</strong></td>
+                    <td class="col-md-2"><strong>Size</strong></td>
+                </tr>
+                <tr class="table-hover">
+                    <td class="col-md-10"><a href='.@routes.Assets.at("downloads/navprot.zip")'>navprot.zip</a></td>
+                    <td class="col-md-2">4.26 MB</td>
+                </tr>
+            </table><br/>
+            <h4>Requirements</h4>
+            <p>
+            You need to have Java Runtime Environment (at least version 1.7) installed on your computer. To check it on Windows,
+            you need to open command prompt. Press <kbd>Windows Key + R</kbd> and type <samp>cmd</samp> and press enter.
+            For checking it on Linux/OS X open a terminal window. Type the following into console:
+            </p>
+            <pre>java -version</pre>
+            <p>If you see an output similar to this one, you are good to go:</p>
+            <pre>java version "1.7.0_45"
+Java(TM) SE Runtime Environment (build 1.7.0_45-b18)
+Java HotSpot(TM) 64-Bit Server VM (build 24.45-b08, mixed mode)</pre>
+            <p>If you do not have Java installed you can download it <a href="http://www.java.com/en/">from here</a>.
+            For OS X you might have to install Java Development Kit as well, which can be found in
+            <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">here</a>.
+            </p>
+            <h4>Usage</h4>
+            <h5><strong>Linux/OS X</strong></h5>
+            <p>
+                Run the terminal and change directory to directory where you
+                extracted the contents of the zip archive.
+            </p>
+            <pre>$ cd Downloads</pre>
+            <p>
+                Unzip the contents of the zip file.
+            </p>
+            <pre>$ unzip navprot.zip</pre>
+            <p>
+                We are interested in <mark>navprot</mark> shell script. We need to make it executable.
+            </p>
+            <pre>$ chmod u+x navprot</pre>
+            <p>
+                Let's assume that your PDB files are located in /home/user/mypdbs and initial.pdb
+                is the name of your initial conformation PDB file and final.pdb is the name of your
+                final conformation PDB file. For this example we take A chains of both structures.
+                In addition, we want to save our results into /home/user/navprot_results.
+                Type the following to start running your simulation.
+            </p>
+            <pre>$ ./navprot /home/user/mypdbs/initial.pdb A /home/user/mypdbs/final.pdb A /home/user/navprot_results
+# or
+$ sh navprot /home/user/mypdbs/initial.pdb A /home/user/mypdbs/final.pdb A /home/user/navprot_results</pre>
+
+            <h5><strong>Windows</strong></h5>
+            <p>
+                Extract the contents of the zip archive that you downloaded. Press <kbd>Windows Key + R</kbd> and type
+                <samp>cmd</samp> and press enter. Change directory to the directory where you extracted your files in
+                the command prompt.
+            </p>
+            <pre>> cd C:/Users/User/Downloads</pre>
+            <p>
+                <mark>navprot.bat</mark> is our executable file for running the simulation. Let's assume that we want to
+                save our results to C:/Users/User/Documents/Navprot\ Results. If our PDB files are inside
+                the Documents directory and initial.pdb and final.pdb are the names of initial and final conformation
+                PDB files (A chains are considered for both), type the following to run the simulation:
+            </p>
+            <pre>> navprot.bat C:/Users/User/Documents/initial.pdb A C:/Users/User/Documents/final.pdb A C:/Users/User/Documents/Navprot\ Results</pre>
+
+            <p>
+                Alternatively, for both <strong>Linux/OS X</strong> and <strong>Windows</strong> you can also use the
+                following command:
+            </p>
+            <pre>java -jar navprot.jar [path to initial conformation PDB] [initial PDB chain ID] [path to final conformation PDB] [final PDB chain ID] [path to results directory]</pre>
+            <p>
+                Simulation might take from a few hours up to a three or four days. When it is over, there will be three files in
+                your results directory. <mark>torsion.txt</mark> contains the theta and phi angles of both initial and
+                final structure. It is created in the beginning of the simulation and it is read by the program itself.
+                <mark>results.txt</mark> file includes cartesian and generalized coordinates of each simulation step.
+                Finally, <mark>results.pdb</mark> is created at the end of the simulation. It contains each conformation
+                of each step taken during the simulation as NMR model.
+            </p>
+            <h4>Licensing</h4>
+            <p>
+                This software makes use of Apache Commons, BioJava (<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3467744/">please cite</a>)
+                and JMAT libraries. Executable jar file contains these libraries and they are protected with
+                Apache, LGPL and GPL licenses. Please use the software accordingly.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://safir.prc.boun.edu.tr/piwik/" : "http://safir.prc.boun.edu.tr/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://safir.prc.boun.edu.tr/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+</body>
+</html>

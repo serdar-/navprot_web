@@ -1,0 +1,162 @@
+@(task: Task)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href='/navprot@routes.Assets.at("stylesheets/custom.css")'>
+    <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+    <script type="text/javascript" src='/navprot@routes.Assets.at("jmol/JSmol.min.js")'></script>
+    <script type="text/javascript" src='/navprot@routes.Assets.at("rainbowvis.js")'></script>
+    <script type="text/javascript">
+        var jmolApplet0;
+        var use = "HTML5"
+        var s = document.location.search;
+        jmol_isReady = function(applet) {
+	    Jmol._getElement(applet, "appletdiv").style.border="1px solid white"
+        }
+        //Jmol._debugCode = (s.indexOf("debugcode") >= 0);
+
+        var Info = {
+	        width: 450,
+	        height: 450,
+            debug: false,
+            color: "white",
+            addSelectionOptions: false,
+            use: "HTML5",
+            j2sPath: '/navprot@routes.Assets.at("jmol/j2s")',
+            readyFunction: jmol_isReady,
+            script: "load /navprot@routes.Queries.initialPDB(task.id); load APPEND /navprot@routes.Queries.finalPDB(task.id); select 1.1 ;cartoon only; color [xFF6600]; select 2.1; cartoon only; color [x3366CC]; frame ALL;",
+            //script: "load " + '/navprot@routes.Queries.resultPDB(task.id)' +"; select protein; cartoon only; color structure; animation mode loop; animation on",
+            disableInitialConsole: true
+        }
+
+    </script>
+    <style>
+        .col-md-12{ padding-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href="/navprot@routes.Application.index()">Home</a></li>
+        <li><a href="/navprot@routes.Application.about()">About</a></li>
+        <li><a href="/navprot@routes.Application.downloads()">Downloads</a></li>
+        <li><a href="/navprot@routes.Application.people()">People</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Pathway Visualization</h3>
+            <script type="text/javascript">
+                jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+            </script>
+            <br/>
+            <a href="/navprot@routes.Queries.resultPDB(task.id)">Click here to download trajectory as PDB file</a>
+        </div>
+        <div class="col-md-6">
+            <h3>Details</h3>
+            <p>
+                Initial PDB structure: @task.initialPDB chain @task.initialChain (colored orange)<br/>
+                Final PDB structure: @task.finalPDB chain @task.finalChain (colored blue)<br/><br/>
+                RMSD difference between initial and final structures: @task.RMSD &#8491;<br/><br/>
+                Upload date: @task.uploadDate<br/>
+                Start time: @task.startTime<br/>
+                End time: @task.endTime<br/><br/>
+                <script type="text/javascript">
+                    function jmolButton(script, text) {Jmol.jmolButton(jmolApplet0, script, text)};
+                    function jmolHtml(s) { document.write(s) };
+                    function jmolBr() { jmolHtml("<br />") };
+                    var rainbow = new Rainbow();
+                    var arr = @controllers.Queries.getChartData(task);
+                    var no_models = arr.length - 1;
+                    rainbow.setSpectrum("ff6600","3366cc");
+                    rainbow.setNumberRange(1, no_models); 
+                    var color_string = "";
+                    for(var i = 1; i < arr.length; i++){
+                        var color = rainbow.colorAt(i);
+                        color_string = color_string.concat("select 1." + i + "; color atoms [x" + color + "]; ");
+                    }
+
+                    Jmol.setButtonCss(null,"class='btn btn-default'");
+                    jmolButton("load /navprot@routes.Queries.initialPDB(task.id);cartoon only; color [xFF6600];","Show initial structure");
+                    jmolBr();
+                    jmolBr();
+                    jmolButton("load /navprot@routes.Queries.finalPDB(task.id);cartoon only; color [x3366CC];","Show final structure");
+                    jmolBr();
+                    jmolBr();
+                    jmolButton("load /navprot@routes.Queries.initialPDB(task.id); load APPEND /navprot@routes.Queries.finalPDB(task.id); select 1.1 ;cartoon only; color [xFF6600]; select 2.1; cartoon only; color [x3366CC]; frame ALL;","Show initial and final structures aligned");
+                    jmolBr();
+                    jmolBr();
+                    jmolButton("load /navprot@routes.Queries.resultPDB(task.id); select protein;cartoon only; color [x3366CC]; animation mode loop; animation on","Show the trajectory");
+		            jmolBr();
+                    jmolBr();
+	   	            jmolButton("load /navprot@routes.Queries.resultPDB(task.id); select protein; trace only; color [x3366CC]; spacefill 0.75; animation mode loop; animation on","Show trajectory with alpha-carbons");
+                    jmolBr();
+                    jmolBr();
+                    jmolButton("load /navprot@routes.Queries.resultPDB(task.id);select protein;cartoon only;" + color_string + "frame ALL", "Show all frames")
+                    jmolHtml("<p>Right click on JSMol frame for more options.</p>");
+                </script>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" id="accordion">
+            <br/><h3>
+            <div>Distances to initial and final structures</div>
+            </h3>
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript">
+                google.load("visualization", "1", {packages:["corechart"]});
+                google.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                var data = google.visualization.arrayToDataTable(@controllers.Queries.getChartData(task));
+
+                var options = {
+                fontName: 'sans-serif',
+                fontSize: 16,
+                //title: 'Distances to initial and final structures',
+                hAxis:{title : 'Trajectory'},
+                //hAxis:{titleTextStyle:{color:'grey'}},
+                vAxis:{title : 'RMSD (\u212b)'}
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+                }
+            </script>
+
+            <h3><div id="chart_div" style="height: 600px;"></div></h3>
+
+        </div>
+    </div>
+</div>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://safir.prc.boun.edu.tr/piwik/" : "http://safir.prc.boun.edu.tr/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://safir.prc.boun.edu.tr/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+</body>
+</html>

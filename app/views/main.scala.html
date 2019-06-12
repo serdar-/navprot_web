@@ -1,0 +1,117 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+            <title>@title</title>
+            <link rel="stylesheet" href=".@routes.Assets.at("stylesheets/custom.css")">
+            <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+            <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+        </head>
+    <body>
+    <div class="container">
+    	<div class="page-header">
+    		<h1>
+                NavProt Server
+    		</h1>
+    	</div>
+	</div>
+	<div class="container">
+      <ul class="nav nav-pills">
+        <li class="active"><a href=".@routes.Application.index()">Home</a></li>
+        <li><a href=".@routes.Application.about()">About</a></li>
+          <li><a href=".@routes.Application.downloads()">Downloads</a></li>
+        <li><a href=".@routes.Application.people()">People</a></li>
+      </ul>
+    </div>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-md-4 col-xs-4">
+    			<p class="lead">
+    				@content
+    			</p>
+                <p>
+                    You can start a conformational transition pathway simulation job by uploading your PDB files below.
+                </p>
+
+                <form action = ".@routes.Application.upload()" enctype = "multipart/form-data" class="text-left" method="post">
+                        <div class="form-group col-md-6">
+                        <label for="pdb1">Initial conformation PDB:</label>
+                        <span class="btn btn-default btn-file">
+                            Browse <input type="file" name="pdb1" id="pdb1"><br/>
+                        </span><br/><br />
+                            <div id="first-pdb">No file selected</div><br/>
+                        <!--<label for="chain1">Chain</label>-->
+
+                        <input type="text" class="form-control" name="chain1" id="chain1" placeholder="Chain">
+
+                        </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="pdb1">Final conformation PDB:</label>
+                        <span class="btn btn-default btn-file">
+                            Browse <input type="file" name="pdb2" id="pdb2">
+                        </span><br /><br />
+                            <div id="second-pdb">No file selected</div><br/>
+                        <input type="text" class="form-control" name="chain2" id="chain2" placeholder="Chain">
+                    </div>
+
+                    <div class="form-group col-md-8">
+
+                        <label for="email">E-mail (optional):</label>
+                        <input type="email" class="form-control" id="email" name="email"><br/>
+
+                        <input type="submit" class="btn btn-default" value="Submit"><br/><br/>
+                        <p><a href="http://safir.prc.boun.edu.tr/navprot/results/ab70fbae-5a07-4aa6-a331-781c7694146e">Click here for a sample result</a></p>
+                        <p><a href='.@routes.Assets.at("downloads/quickTestPDBs.zip")'>Click here to download sample PDB files for a quick test run</a></p>
+                    </div>
+                </form>
+                <script>
+                $(document).ready(function(){
+                    $("#pdb1").change(function(){
+                        $("div[id=first-pdb]").text($(this).val().split('\\').pop());
+                    });
+                    $("#pdb2").change(function(){
+                        $("div[id=second-pdb]").text($(this).val().split('\\').pop());
+                    });
+                });
+                </script>
+    	    </div>
+            <div class="col-md-6 col-xs-4">
+
+                <p class="lead">What is NavProt?</p>
+                <p>
+                    NavProt is a web application for calculating trajectories for conformational transition pathways
+                    of proteins. It uses a unique robot navigation algorithm to find the minimum energy pathway to
+                    the target conformation. <a href=".@routes.Application.about()">Click here for more information.</a>
+                </p>
+                <br/>
+                <img src='.@routes.Assets.at("images/logo3.png")' alt="NavProt" class="img-responsive center-block" heigth="60%" width="60%">
+            </div>
+    	</div>
+    </div>
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+    <span class="navbar-text">
+      <h6 class="muted text">Intelligent Systems Laboratory and Polymer Research Center, Bogazici University, Istanbul</h6>
+    </span>
+        </div>
+    </div>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://safir.prc.boun.edu.tr/piwik/" : "http://safir.prc.boun.edu.tr/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://safir.prc.boun.edu.tr/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+    </body>
+</html>

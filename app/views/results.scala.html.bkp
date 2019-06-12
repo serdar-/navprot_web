@@ -1,0 +1,129 @@
+@(task: Task)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href='.@routes.Assets.at("stylesheets/custom.css")'>
+    <script type="text/javascript" src='.@routes.Assets.at("jmol/JSmol.min.js")'></script>
+    <script type="text/javascript">
+        var jmolApplet0;
+        var use = "HTML5"
+        var s = document.location.search;
+        jmol_isReady = function(applet) {
+	    Jmol._getElement(applet, "appletdiv").style.border="1px solid white"
+        }
+        //Jmol._debugCode = (s.indexOf("debugcode") >= 0);
+
+        var Info = {
+	        width: 450,
+	        height: 450,
+            debug: false,
+            color: "white",
+            addSelectionOptions: false,
+            use: "HTML5",
+            j2sPath: '.@routes.Assets.at("jmol/j2s")',
+            readyFunction: jmol_isReady,
+            script: "load " + '.@routes.Queries.resultPDB(task.id)' +"; select protein; cartoon only; color structure; animation mode loop; animation on",
+            disableInitialConsole: false
+        }
+
+    </script>
+    <style>
+        .col-md-12{ padding-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href=".@routes.Application.index()">Home</a></li>
+        <li><a href=".@routes.Application.about()">About</a></li>
+        <li><a href=".@routes.Application.downloads()">Downloads</a></li>
+        <li><a href=".@routes.Application.people()">People</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Pathway Visualization</h3>
+            <script type="text/javascript">
+                jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+            </script>
+            <br/>
+            <a href=".@routes.Queries.resultPDB(task.id)">Click here to download trajectory as PDB file</a>
+        </div>
+        <div class="col-md-6">
+            <h3>Details</h3>
+            <p>
+                Initial PDB structure: @task.initialPDB chain @task.initialChain<br/>
+                Final PDB structure: @task.finalPDB chain @task.finalChain<br/><br/>
+                RMSD difference between initial and final structures: @task.RMSD &#8491;<br/><br/>
+                Upload date: @task.uploadDate<br/>
+                Start time: @task.startTime<br/>
+                End time: @task.endTime<br/><br/>
+                <script type="text/javascript">
+                    function jmolButton(script, text) {Jmol.jmolButton(jmolApplet0, script, text)};
+                    function jmolHtml(s) { document.write(s) };
+                    function jmolBr() { jmolHtml("<br />") };
+                    Jmol.setButtonCss(null,"class='btn btn-default'");
+                    jmolButton("load .@routes.Queries.initialPDB(task.id);cartoon only; color structure;","Show initial structure");
+                    jmolBr();
+                    jmolBr();
+                    jmolButton("load .@routes.Queries.finalPDB(task.id);cartoon only; color structure;","Show final structure");
+                    jmolBr();
+                    jmolBr();
+                    jmolButton("load .@routes.Queries.resultPDB(task.id); select protein; cartoon only; color structure; animation mode loop; animation on","Show the trajectory");
+                </script>
+
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" id="accordion">
+            <br/><h3>
+            <div>Distances to initial and final structures</div>
+            </h3>
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript">
+                google.load("visualization", "1", {packages:["corechart"]});
+                google.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                var data = google.visualization.arrayToDataTable(@controllers.Queries.getChartData(task));
+
+                var options = {
+                fontName: 'sans-serif',
+                fontSize: 16,
+                //title: 'Distances to initial and final structures',
+                hAxis:{title : 'Trajectory'},
+                //hAxis:{titleTextStyle:{color:'grey'}},
+                vAxis:{title : 'RMSD (\u212b)'}
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+                }
+            </script>
+
+            <h3><div id="chart_div" style="height: 600px;"></div></h3>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

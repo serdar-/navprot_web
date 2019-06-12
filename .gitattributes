@@ -1,0 +1,2 @@
+*.js linguist-vendored 
+*.scala.html linguist-language=scala

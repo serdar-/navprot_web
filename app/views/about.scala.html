@@ -1,0 +1,108 @@
+@(message: String)
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href=".@routes.Assets.at("stylesheets/custom.css")">
+    <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href=".@routes.Application.index()">Home</a></li>
+        <li class="active"><a href=".@routes.Application.about()">About</a></li>
+        <li><a href=".@routes.Application.downloads()">Downloads</a></li>
+        <li><a href=".@routes.Application.people()">People</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+          <h3>About NavProt</h3>
+          <p>
+            NavProt is a web application for predicting conformational transition
+            pathways of proteins by using a novel multiple-robot navigation
+            algorithm. Application basically takes two inputs, initial and final
+            conformations of the protein. It creates a coarse grain model of
+            both conformations by considering positions of alpha-carbon atoms only.
+            Afterwards it builds an artificial potential function. Derivative of
+            this function results in direction vectors that lead the structure to
+            final conformation. You can read more about the
+            theory <a href="http://iopscience.iop.org/1478-3975/6/3/036008">
+            in this article</a>.
+          </p>
+          <h3>How to use it</h3>
+          <p>
+            If you want to simulate transitional pathway of a protein you need
+            two PDB files, one for first conformation and another for final
+            conformation. You also need to know which chain you are going to
+            use in which PDB file. In addition, the chains you submit should have
+            the same number of residues. Even though sequences of your
+            chains are identical, they might not have the same number of residues.
+            In that case, you might have to leave out some number of residues from
+            one of the chains. Therefore, we advise you to align your
+            structures and modify your PDB files accordingly before you
+            submit a request to the application.
+          </p>
+          <h4>How long does a simulation take?</h4>
+          <p>
+            It depends on the number of residues and the distance between initial
+            and final conformations, it might take from a few hours up to two
+            or three days. If there is still another job running after
+            you submitted your request, your job is put in the queue. If you
+            provide an e-mail address with your upload, you will receive e-mails
+            about the status of your request. You can also check it on your
+            results page.
+          </p>
+          <p>
+            If you have a structure which has more than 400 residues, we suggest you
+            to use standalone version to run it locally since running time might be
+            relatively long.
+          </p>
+          <h4>What is the result of the simulation?</h4>
+          <p>
+            Each conformation at each step of the simulation is recorded in a PDB
+            file as NMR model, you can download this PDB file. After simulation
+            is over, conformations at each step are aligned (using FATCAT rigid algorithm)
+            with initial and final conformations and RMSD values are recorded.
+            You can observe these values on a plot.
+            <a href="http://safir.prc.boun.edu.tr/navprot/results/ab70fbae-5a07-4aa6-a331-781c7694146e">Here is an example results page.</a>
+          </p>
+          <p>
+            If you obtain a trajectory which has approximately more than 300 snapshots, visualization of the
+            trajectory might be slow. Results page uses JSMol to show the structures and your browser
+            might become unresponsive while compiling JavaScript. Therefore, for such cases, it might be easier for
+            you to download the result PDB to visualize the trajectory on your own computer by using
+            PyMOL, VMD etc.
+          </p>
+          <h4>Is it possible to run it locally?</h4>
+          <p>
+            Yes, there is a standalone version available. You can
+            <a href=".@routes.Application.downloads()">
+              check the downloads page here</a>.
+          </p>
+            <!-- Piwik -->
+            <script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://safir.prc.boun.edu.tr/piwik/" : "http://safir.prc.boun.edu.tr/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://safir.prc.boun.edu.tr/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+            <!-- End Piwik Tracking Code -->
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+@(message: String)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href=".@routes.Assets.at("stylesheets/custom.css")">
+    <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+    <style>
+    .col-md-3{ padding-top: 20px; }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href=".@routes.Application.index()">Home</a></li>
+        <li><a href=".@routes.Application.about()">About</a></li>
+        <li><a href=".@routes.Application.downloads()">Downloads</a></li>
+        <li class="active"><a href=".@routes.Application.people()">People</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        <img src="http://safir.prc.boun.edu.tr/prcw/wp-content/uploads/2014/07/foto.png" alt="Serdar Ozsezen" class="img-rounded img-responsive center-block" heigth="70%" width="70%">
+        </div>
+        <div class="col-md-3">
+
+            <p class="left">
+            <p class="lead"> Serdar Özsezen </p>
+            MSc Student in Department of Chemical Engineering<br/>
+            Polymer Research Center<br/>
+            Bogazici University<br/>
+            Homepage: <a href="http://safir.prc.boun.edu.tr/prcw/people/serdar-ozsezen/">http://safir.prc.boun.edu.tr/prcw/people/serdar-ozsezen/</a><br/>
+            E-mail: <a href="mailto:serdar.ozsezen@@boun.edu.tr">serdar.ozsezen@@boun.edu.tr</a><br/>
+            </p>
+
+         </div>
+        </div>
+        <div class="row">
+        <div class="col-md-3">
+            <img src="http://www.che.boun.edu.tr/images/people/faculty-members/Turkan-Haliloglu-b.jpg" alt="Turkan Haliloglu" class="img-rounded img-responsive center-block">
+        </div>
+        <div class="col-md-3">
+
+            <p class="left">
+            <p class="lead"> Türkan Haliloğlu </p>
+            Professor of Chemical Engineering<br/>
+            Polymer Research Center<br/>
+            Bogazici University<br/>
+            Homepage: <a href="http://safir.prc.boun.edu.tr/prcw/people/turkan-haliloglu/">http://safir.prc.boun.edu.tr/prcw/people/turkan-haliloglu/</a><br/>
+            E-mail: <a href="mailto:haliloglut@@boun.edu.tr">haliloglut@@boun.edu.tr</a><br/>
+            </p>
+
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-3">
+            <img src="http://www.isl.ee.boun.edu.tr/images/stories/BOZMA.png" alt="Işıl Bozma" height="90%" width="90%" class="img-rounded img-responsive center-block">
+        </div>
+        <div class="col-md-3">
+
+            <p class="left">
+            <p class="lead"> Işıl Bozma </p>
+            Professor of Electronics Engineering<br/>
+            Intelligent Systems Laboratory<br/>
+            Bogazici University<br/>
+            Homepage: <a href="http://www.isl.ee.boun.edu.tr/people/isil/index.html">http://isl.ee.boun.edu.tr</a><br/>
+            E-mail: <a href="mailto:bozma@@boun.edu.tr">bozma@@boun.edu.tr</a><br/>
+            </p>
+        </div>
+        </div>
+
+</div>
+
+<div class="container">
+    <div class="row">
+
+</div>
+</div>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://safir.prc.boun.edu.tr/piwik/" : "http://safir.prc.boun.edu.tr/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://safir.prc.boun.edu.tr/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+</body>
+</html>

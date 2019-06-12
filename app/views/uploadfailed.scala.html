@@ -1,0 +1,40 @@
+@(message: String, errorMessage: String)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href=".@routes.Assets.at("stylesheets/custom.css")">
+    <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+    <style>
+        .col-md-12{ padding-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href="http://safir.prc.boun.edu.tr/navprot/">Home</a></li>
+        <li><a href="http://safir.prc.boun.edu.tr/navprot/about">About</a></li>
+        <li><a href="http://safir.prc.boun.edu.tr/navprot/downloads">Downloads</a></li>
+        <li><a href="http://safir.prc.boun.edu.tr/navprot/people">People</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <p class="lead">@message</p>
+        @errorMessage
+        </div>
+    </div>
+</div>

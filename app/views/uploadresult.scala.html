@@ -1,0 +1,60 @@
+@(task: Task, initName: String, finalName: String, rmsd: String)
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <title>NavProt Server</title>
+    <link rel="stylesheet" href=".@routes.Assets.at("stylesheets/custom.css")">
+    <link rel="shortcut icon" type="image/png" href=".@routes.Assets.at("images/favicon.png")">
+    <style>
+    .col-md-12{ padding-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>
+            NavProt Server
+        </h1>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href=".@routes.Application.index()">Home</a></li>
+        <li><a href=".@routes.Application.about()">About</a></li>
+        <li><a href=".@routes.Application.downloads()">Downloads</a></li>
+        <li><a href=".@routes.Application.people()">People</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="lead">Upload successful</p>
+            Your job request has been registered.<br/><br/>
+            Initial conformation PDB: @initName<br/>
+            Final conformation PDB: @finalName<br/>
+            RMSD between initial and final conformations: @rmsd &#8491; <br/><br/>
+            Your job ID is: @task.id<br/>
+            You can check your job status and results <a href=".@routes.Application.returnSimulationResults(task.id)"> from this link.</a><br/>
+            Please bookmark <a href=".@routes.Application.returnSimulationResults(task.id)">your results page</a> so you can reach to your results when simulation is finished.
+    </div>
+</div>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://safir.prc.boun.edu.tr/piwik/" : "http://safir.prc.boun.edu.tr/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://safir.prc.boun.edu.tr/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+</body>
+</html>

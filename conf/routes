@@ -1,0 +1,35 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+POST    /                           controllers.Application.upload()
+
+GET     /people                     controllers.Application.people()
+
+GET     /downloads                  controllers.Application.downloads()
+
+GET     /about                      controllers.Application.about()
+
+GET     /142a3q%20                   controllers.Application.getAllRequests()
+
+GET     /setdone/:uuid              controllers.Application.setJobDone(uuid: String)
+
+GET     /results/:uuid              controllers.Application.returnSimulationResults(uuid: String)
+
+GET     /:uid/result.pdb            controllers.Queries.resultPDB(uid: String)
+
+GET     /:uid/initial.pdb           controllers.Queries.initialPDB(uid: String)
+
+GET     /:uid/final.pdb             controllers.Queries.finalPDB(uid: String)
+
+#GET     /testresult                 controllers.Application.renderResults()
+
+#GET     /requestsByDate             controllers.Application.getRequestsbyDate()
+
+GET     /:uuid                      controllers.Application.cancelJob(uuid: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
